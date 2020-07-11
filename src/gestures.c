@@ -522,8 +522,9 @@ static void trigger_move(struct Gestures* gs,
 {
 	if ((gs->move_type == GS_MOVE || timercmp(&gs->time, &gs->move_wait, >=)) && (dx != 0 || dy != 0)) {
 		if (trigger_drag_start(gs, cfg, dx, dy)) {
-			gs->move_dx = dx*cfg->sensitivity;
-			gs->move_dy = dy*cfg->sensitivity;
+			double d_scale = cfg->acc_sensitivity*(abs(dx) + abs(dy));
+			gs->move_dx = dx*d_scale + dx*cfg->sensitivity;
+			gs->move_dy = dy*d_scale + dy*cfg->sensitivity;
 			break_coasting(gs);
 			gs->move_type = GS_MOVE;
 			gs->move_dist = 0;
@@ -648,8 +649,9 @@ static int trigger_swipe_unsafe(struct Gestures* gs,
 	// hypot(1/n * (x0 + ... + xn); 1/n * (y0 + ... + yn)) <=> 1/n * hypot(x0 + ... + xn; y0 + ... + yn)
 	dist = hypot(avg_move_x, avg_move_y);
 	if(cfg_swipe->drag_sens){
-		gs->move_dx = cfg->sensitivity * avg_move_x * cfg_swipe->drag_sens * 0.001;
-		gs->move_dy = cfg->sensitivity * avg_move_y * cfg_swipe->drag_sens * 0.001;
+		double d_scale = cfg->acc_sensitivity*((fabs(avg_move_x) + fabs(avg_move_y)) / 2.0);
+		gs->move_dx = (d_scale*avg_move_x + cfg->sensitivity*avg_move_x)*cfg_swipe->drag_sens * 0.001;
+		gs->move_dy = (d_scale*avg_move_y + cfg->sensitivity*avg_move_y)*cfg_swipe->drag_sens * 0.001;
 	} else{
 		gs->move_dx = gs->move_dy = 0.0;
 	}

@@ -1,5 +1,16 @@
 xf86-input-mtrack
 =================
+
+### Install on archLinux
+
+please visit https://github.com/pastleo/xf86-input-mtrack-pkg
+
+### Dev
+
+```
+make clean && make && ./mtrack-test /dev/input/eventXX
+```
+
 ###### v0.5.0
 
 An Xorg driver for multitouch trackpads. Supports any trackpad whose kernel
@@ -198,6 +209,14 @@ Default is 0.
 Adjusts the sensitivity (movement speed) of the touchpad. This is a real number
 greater than or equal to zero. Default is 1. A value of 0 will disable pointer
 movement.
+
+<a name="AccSensitivity"></a>
+**AccSensitivity** - 
+Adjusts the acceleration sensitivity when moving. This is a real number
+greater than or equal to zero. Default is 0. A value of 0 will disable
+acceleration.
+
+a graph of raw input movement and pointer movement: https://www.desmos.com/calculator/jxluw1c8rl
 
 <a name="FingerHigh"></a>
 **FingerHigh** - 
