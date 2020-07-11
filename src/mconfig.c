@@ -21,6 +21,15 @@
 
 #include "mconfig.h"
 
+void cfg_acc_sensitivity(struct MConfig* cfg, double raw_acc_sensitivity_value)
+{
+	cfg->acc_sensitivity = raw_acc_sensitivity_value <= 0.0 ? 0.0 : raw_acc_sensitivity_value * 0.005;
+	// acc_x
+	//	 = dx * ((dx + dy) / 2 * 0.01)
+	//	 = dx * ((dx + dy) * 0.5 * 0.01)
+	//	 = dx * (dx + dy) * 0.005
+}
+
 void mconfig_defaults(struct MConfig* cfg)
 {
 	// Configure MTState
@@ -134,6 +143,7 @@ void mconfig_defaults(struct MConfig* cfg)
 	cfg->drag_enable = DEFAULT_DRAG_ENABLE;
 	cfg->drag_timeout = DEFAULT_DRAG_TIMEOUT;
 	cfg->sensitivity = DEFAULT_SENSITIVITY;
+	cfg_acc_sensitivity(cfg, DEFAULT_ACC_SENSITIVITY);
 	cfg->scroll_smooth = DEFAULT_SCROLL_HIGH_PREC;
 }
 
@@ -320,4 +330,6 @@ void mconfig_configure(struct MConfig* cfg,
 	cfg->axis_x_invert = xf86SetBoolOption(opts, "AxisXInvert", DEFAULT_AXIS_X_INVERT);
 	cfg->axis_y_invert = xf86SetBoolOption(opts, "AxisYInvert", DEFAULT_AXIS_Y_INVERT);
 	cfg->sensitivity = MAXVAL(xf86SetRealOption(opts, "Sensitivity", DEFAULT_SENSITIVITY), 0);
+	cfg_acc_sensitivity(cfg, MAXVAL(xf86SetRealOption(opts, "AccSensitivity", DEFAULT_ACC_SENSITIVITY), 0));
 }
+

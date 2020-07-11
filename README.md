@@ -128,6 +128,13 @@ Boolean value. Defaults to false.
 Whether or not to disable the entire trackpad when a palm is touching.  
 Boolean value. Defaults to false.
 
+**[AccSensitivity](#AccSensitivity)**<a name="AccSensitivity"></a>
+Adjusts the acceleration sensitivity when moving. This is a real number
+greater than or equal to zero. Default is 0. A value of 0 will disable
+acceleration.
+
+a graph of raw input movement and pointer movement: https://www.desmos.com/calculator/jxluw1c8rl
+
 **[ThumbSize](#ThumbSize)**<a name="ThumbSize"></a>
 The minimum size of what's considered a thumb. It is expected that a thumb
 will be larger than other fingers. This is represented as a percentage of the
